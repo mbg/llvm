@@ -6,3 +6,5 @@ FFI/Core.hs
 *.chi
 *.chs.h
 .virthualenv
+
+Documentation

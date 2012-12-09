@@ -1,11 +1,15 @@
+{-# OPTIONS_GHC -optc-D__STDC_LIMIT_MACROS #-}
+{-# OPTIONS_GHC -optc-D__STDC_CONSTANT_MACROS #-}
+{-# LINE 1 "Base\FFI\Core.hsc" #-}
 {--------------------------------------------------------------------------------------------------
-                                           Cada Compiler                                           
+{-# LINE 2 "Base\FFI\Core.hsc" #-}
+                                     LLVM Bindings for Haskell                                     
                                        Michael Benjamin Gale                                       
 --------------------------------------------------------------------------------------------------}
 
 {-# LANGUAGE ForeignFunctionInterface, EmptyDataDecls, DeriveDataTypeable #-}
 
-module LLVM.FFI.Core(
+module LLVM.Base.FFI.Core (
     ContextRef(..),
     ModuleRef(..),
     TypeRef(..),
@@ -132,16 +136,20 @@ module LLVM.FFI.Core(
     llvmBuildCall
 ) where
 
-#define __STDC_LIMIT_MACROS
-#define __STDC_CONSTANT_MACROS
+
+{-# LINE 136 "Base\FFI\Core.hsc" #-}
+
+{-# LINE 137 "Base\FFI\Core.hsc" #-}
 
 import Data.Typeable(Typeable)
 import Foreign.C.String (CString)
 import Foreign.C.Types (CDouble(..), CInt(..), CUInt(..), CLLong(..), CULong(..))
 import Foreign.Ptr (Ptr, FunPtr)
 
-#include <llvm-c/Core.h>
-#include <llvm-c/BitWriter.h>
+
+{-# LINE 144 "Base\FFI\Core.hsc" #-}
+
+{-# LINE 145 "Base\FFI\Core.hsc" #-}
 
 data Context deriving (Typeable)
 data Module deriving (Typeable)
@@ -162,14 +170,20 @@ data Visibility = Visible
                 | Protected
                 
 fromVisibility :: Visibility -> CUInt
-fromVisibility Visible   = (#const LLVMDefaultVisibility)
-fromVisibility Hidden    = (#const LLVMHiddenVisibility)
-fromVisibility Protected = (#const LLVMProtectedVisibility)
+fromVisibility Visible   = (0)
+{-# LINE 166 "Base\FFI\Core.hsc" #-}
+fromVisibility Hidden    = (1)
+{-# LINE 167 "Base\FFI\Core.hsc" #-}
+fromVisibility Protected = (2)
+{-# LINE 168 "Base\FFI\Core.hsc" #-}
 
 toVisibility :: CUInt -> Visibility
-toVisibility c | c == (#const LLVMDefaultVisibility)   = Visible
-toVisibility c | c == (#const LLVMHiddenVisibility)    = Hidden
-toVisibility c | c == (#const LLVMProtectedVisibility) = Protected
+toVisibility c | c == (0)   = Visible
+{-# LINE 171 "Base\FFI\Core.hsc" #-}
+toVisibility c | c == (1)    = Hidden
+{-# LINE 172 "Base\FFI\Core.hsc" #-}
+toVisibility c | c == (2) = Protected
+{-# LINE 173 "Base\FFI\Core.hsc" #-}
 
 data Linkage = ExternalLinkage
              | AvailableExternallyLinkage
@@ -190,15 +204,19 @@ data Linkage = ExternalLinkage
              | LinkerPrivateWeakDefAutoLinkage
              
 fromLinkage :: Linkage -> CUInt
-fromLinkage InternalLinkage = (#const LLVMInternalLinkage)
-fromLinkage CommonLinkage   = (#const LLVMCommonLinkage)
-fromLinkage PrivateLinkage  = (#const LLVMPrivateLinkage)
+fromLinkage InternalLinkage = (7)
+{-# LINE 194 "Base\FFI\Core.hsc" #-}
+fromLinkage CommonLinkage   = (13)
+{-# LINE 195 "Base\FFI\Core.hsc" #-}
+fromLinkage PrivateLinkage  = (8)
+{-# LINE 196 "Base\FFI\Core.hsc" #-}
 
 data CallingConv = C
                  | GHC
                  
 fromCallingConv :: CallingConv -> CUInt
-fromCallingConv C   = (#const LLVMCCallConv)
+fromCallingConv C   = (0)
+{-# LINE 202 "Base\FFI\Core.hsc" #-}
 fromCallingConv GHC = 10
 
 data Attribute = ZExt
@@ -229,7 +247,8 @@ data Attribute = ZExt
                | NonLazyBind
                
 fromAttribute :: Attribute -> CUInt
-fromAttribute NoUnwind = (#const LLVMNoUnwindAttribute)
+fromAttribute NoUnwind = (32)
+{-# LINE 233 "Base\FFI\Core.hsc" #-}
 
 data IntPred = IntEQ
              | IntNE
@@ -243,16 +262,26 @@ data IntPred = IntEQ
              | IntSLE
 
 fromIntPred :: IntPred -> CUInt
-fromIntPred IntEQ  = (#const LLVMIntEQ)
-fromIntPred IntNE  = (#const LLVMIntNE)
-fromIntPred IntUGT = (#const LLVMIntUGT)
-fromIntPred IntUGE = (#const LLVMIntUGE)
-fromIntPred IntULT = (#const LLVMIntULT)
-fromIntPred IntULE = (#const LLVMIntULE)
-fromIntPred IntSGT = (#const LLVMIntSGT)
-fromIntPred IntSGE = (#const LLVMIntSGE)
-fromIntPred IntSLT = (#const LLVMIntSLT)
-fromIntPred IntSLE = (#const LLVMIntSLE)
+fromIntPred IntEQ  = (32)
+{-# LINE 247 "Base\FFI\Core.hsc" #-}
+fromIntPred IntNE  = (33)
+{-# LINE 248 "Base\FFI\Core.hsc" #-}
+fromIntPred IntUGT = (34)
+{-# LINE 249 "Base\FFI\Core.hsc" #-}
+fromIntPred IntUGE = (35)
+{-# LINE 250 "Base\FFI\Core.hsc" #-}
+fromIntPred IntULT = (36)
+{-# LINE 251 "Base\FFI\Core.hsc" #-}
+fromIntPred IntULE = (37)
+{-# LINE 252 "Base\FFI\Core.hsc" #-}
+fromIntPred IntSGT = (38)
+{-# LINE 253 "Base\FFI\Core.hsc" #-}
+fromIntPred IntSGE = (39)
+{-# LINE 254 "Base\FFI\Core.hsc" #-}
+fromIntPred IntSLT = (40)
+{-# LINE 255 "Base\FFI\Core.hsc" #-}
+fromIntPred IntSLE = (41)
+{-# LINE 256 "Base\FFI\Core.hsc" #-}
              
 foreign import ccall unsafe "LLVMContextCreate" llvmCreateContext :: IO ContextRef  
 foreign import ccall unsafe "LLVMGetGlobalContext" llvmGetGlobalContext :: IO ContextRef 
